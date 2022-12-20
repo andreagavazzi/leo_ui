@@ -86,9 +86,10 @@
                             <input id="s2-slider" type="text"/>
                         </div>
                     </div>
-                    <div class="pl-3 pt-4 text-white">
+                    <div class="pl-3 pt-2 text-white">
                         <label class="switch">
-                            <input type="checkbox" id="relay-1" onclick="rel1Trig()"/><span class="slider"></span>
+                            <input type="checkbox" id="relay-1" onclick="rel1Trig()"/>
+			    <span class="slider"></span>
                         </label>
                         R1 - Front LED bar
                     </div>
@@ -112,6 +113,13 @@
                             <span class="slider"></span>
                         </label>
                         R4 - Off
+                    </div>
+                    <div class="pl-3 pt-2 text-white">
+                        <label class="switch">
+                            <input type="checkbox" checked="checked" id="emitter" onclick="toggleEmitter()"/>
+                            <span class="slider"></span>
+                        </label>
+                        Emitter
                     </div>
                     <div id="temperatureIntID" style="height: 20px; color: aliceblue" class="pl-3">MEB Temperature: --</div>
                 </div>

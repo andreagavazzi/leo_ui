@@ -4,9 +4,9 @@ var ros;
 var batterySub;
 var batterySub1;
 var cmdVelPub;
-var servo1Pub, servo2Pub, servo3Pub;
-var servo1Val, servo2Val, servo3Val;
-var servo1Last = 0, servo2Last = 0, servo3Last = 0;
+var servo1Pub, servo2Pub;
+var servo1Val, servo2Val;
+var servo1Last = 0, servo2Last = 0;
 var twistIntervalID;
 var servoIntervalID;
 var robot_hostname;
@@ -70,17 +70,8 @@ function initROS() {
         queue_size: 5
     });
 
-    servo3Pub = new ROSLIB.Topic({
-        ros: ros,
-        name: 'servo3/angle',
-        messageType: 'std_msgs/Int16',
-        latch: true,
-        queue_size: 5
-    });
-
     servo1Pub.advertise();
     servo2Pub.advertise();
-    servo3Pub.advertise();
     
     relay1Pub = new ROSLIB.Topic({
         ros: ros,
@@ -204,7 +195,7 @@ function initSliders() {
         tooltip: 'show',
         min: -1.20,
         max: 1.20,
-        step: 0.1,
+        step: 0.05,
         value: 0
     });
     $('#s1-slider').on("slide", function (slideEvt) {
@@ -215,23 +206,13 @@ function initSliders() {
         tooltip: 'show',
         min: -1.50,
         max: 0.50,
-        step: 0.1,
+        step: 0.05,
         value: 0
     });
     $('#s2-slider').on("slide", function (slideEvt) {
         servo2Val = slideEvt.value;
     });
 
-    $('#s3-slider').slider({
-        tooltip: 'show',
-        min: -90,
-        max: 90,
-        step: 1,
-        value: 0
-    });
-    $('#s3-slider').on("slide", function (slideEvt) {
-        servo3Val = slideEvt.value;
-    });
 }
 
 function createJoystick() {
@@ -336,14 +317,6 @@ function publishServos() {
         servo2Pub.publish(servoMsg);
     }
 
-    if (servo3Val != servo3Last) {
-        servo3Last = servo3Val;
-        servoMsg = new ROSLIB.Message({
-            data: servo3Val
-        });
-        servo3Pub.publish(servoMsg);
-    }
-
 }
 
 function systemReboot() {
@@ -366,7 +339,6 @@ function shutdown() {
     cmdVelPub.unadvertise();
     servo1Pub.unadvertise();
     servo2Pub.unadvertise();
-    servo3Pub.unadvertise();
     systemRebootPub.unadvertise();
     systemShutdownPub.unadvertise();
     batterySub.unsubscribe();
